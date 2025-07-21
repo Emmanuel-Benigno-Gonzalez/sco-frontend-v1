@@ -3,7 +3,7 @@
 export default function Dashboard() {
   return (
     <>
-        <h4 className="text-bold">Registro de Operaciones</h4>
+        <h4 className="text-bold">Dashboard</h4>
     </>
   )
 }

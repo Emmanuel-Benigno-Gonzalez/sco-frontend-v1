@@ -3,9 +3,9 @@ import Sidebar from '../components/Sidebar'
 import Navigation from '../components/Navigation'
 import { PowerIcon } from '../components/icons/loginIcons'
 import { NavLink } from 'react-router-dom'
+import { OPS_PATH } from '../lib/constants/routes'
 
 export default function AppLayout() {
-
 
 
   return (
@@ -18,7 +18,7 @@ export default function AppLayout() {
                 <div className="barra">
 
                     <NavLink
-                        to={'/ops/registrar'}
+                        to={`/${OPS_PATH}/registrar`}
                         key={'logo'}
                         className={() =>
                         `logo`
@@ -68,7 +68,7 @@ export default function AppLayout() {
                 <div className="barra">
 
                     <NavLink
-                        to={'/ops/registrar'}
+                        to={`/${OPS_PATH}/registrar`}
                         key={'logo'}
                         className={() =>
                         `logo`

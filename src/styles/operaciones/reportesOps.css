@@ -1,0 +1,24 @@
+.container-grid-reportes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Tres columnas por defecto */
+  column-gap: 10rem;
+  padding: 1rem 0;
+}
+
+.custom-image {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: block;
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.custom-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.descripcion {
+  padding: 2rem 0;
+  text-align: center;
+}
