@@ -11,6 +11,7 @@ type OpsFormProps = {
 
 
 export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
+
   return (
     <>
         <div className='form-contenedor'>
@@ -157,6 +158,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                             <input 
                                 type="time" 
                                 id="hora_iti"
+                                step="2" 
                                 {...register("hora_iti")}    
                             />
                             {errors.hora_iti && (
@@ -168,7 +170,8 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                             <label htmlFor="hora_real">Hora Real</label>
                             <input 
                                 type="time" 
-                                id="hora_real" 
+                                id="hora_real"
+                                step="2" 
                                 {...register("hora_real")}
                             />
                             {errors.hora_real && (
@@ -239,9 +242,8 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                             <input 
                                 type="number" 
                                 id="adulto_nac" 
-                                min="0" 
                                 className="small-input"
-                                {...register("adulto_nac")}      
+                                {...register("adulto_nac", { valueAsNumber: true })}    
                             />
                             {errors.adulto_nac && (
                                 <ErrorMessage>{errors.adulto_nac.message}</ErrorMessage>
@@ -254,7 +256,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 id="infante_nac" 
                                 min="0" 
                                 className="small-input"
-                                {...register("infante_nac")}      
+                                {...register("infante_nac", { valueAsNumber: true })}      
                             />
                             {errors.infante_nac && (
                                 <ErrorMessage>{errors.infante_nac.message}</ErrorMessage>
@@ -267,7 +269,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 id="transito_nac"  
                                 min="0" 
                                 className="small-input"
-                                {...register("transito_nac")}      
+                                {...register("transito_nac", { valueAsNumber: true })}      
                             />
                             {errors.transito_nac && (
                                 <ErrorMessage>{errors.transito_nac.message}</ErrorMessage>
@@ -280,7 +282,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 id="conexion_nac" 
                                 min="0" 
                                 className="small-input"
-                                {...register("conexion_nac")}      
+                                {...register("conexion_nac", { valueAsNumber: true })}      
                             />
                             {errors.conexion_nac && (
                                 <ErrorMessage>{errors.conexion_nac.message}</ErrorMessage>
@@ -293,7 +295,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 id="excento_nac"  
                                 min="0" 
                                 className="small-input"
-                                {...register("excento_nac")}      
+                                {...register("excento_nac", { valueAsNumber: true })}      
                             />
                             {errors.excento_nac && (
                                 <ErrorMessage>{errors.excento_nac.message}</ErrorMessage>
@@ -312,7 +314,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 id="adulto_int"  
                                 min="0" 
                                 className="small-input"
-                                {...register("adulto_int")}      
+                                {...register("adulto_int", { valueAsNumber: true })}      
                             />
                             {errors.adulto_int && (
                                 <ErrorMessage>{errors.adulto_int.message}</ErrorMessage>
@@ -325,7 +327,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 id="infante_int" 
                                 min="0" 
                                 className="small-input"
-                                {...register("infante_int")}      
+                                {...register("infante_int", { valueAsNumber: true })}      
                             />
                             {errors.infante_int && (
                                 <ErrorMessage>{errors.infante_int.message}</ErrorMessage>
@@ -338,7 +340,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 id="transito_int"  
                                 min="0" 
                                 className="small-input"
-                                {...register("transito_int")}      
+                                {...register("transito_int", { valueAsNumber: true })}      
                             />
                             {errors.transito_int && (
                                 <ErrorMessage>{errors.transito_int.message}</ErrorMessage>
@@ -351,7 +353,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 id="conexion_int"  
                                 min="0" 
                                 className="small-input"
-                                {...register("conexion_int")}      
+                                {...register("conexion_int", { valueAsNumber: true })}      
                             />
                             {errors.conexion_int && (
                                 <ErrorMessage>{errors.conexion_int.message}</ErrorMessage>
@@ -364,7 +366,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 id="excento_int"  
                                 min="0" 
                                 className="small-input"
-                                {...register("excento_int")}      
+                                {...register("excento_int", { valueAsNumber: true })}      
                             />
                             {errors.excento_int && (
                                 <ErrorMessage>{errors.excento_int.message}</ErrorMessage>
@@ -383,7 +385,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                         type="number" 
                         id="pza_equipaje" 
                         min="0"
-                        {...register("pza_equipaje")}  
+                        {...register("pza_equipaje", { valueAsNumber: true })}  
                     />
                     {errors.pza_equipaje && (
                         <ErrorMessage>{errors.pza_equipaje.message}</ErrorMessage>
@@ -397,7 +399,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                         id="kgs_equipaje" 
                         min="0" 
                         step="0.1"
-                        {...register("kgs_equipaje")}      
+                        {...register("kgs_equipaje", { valueAsNumber: true })}      
                     />
                     {errors.kgs_equipaje && (
                         <ErrorMessage>{errors.kgs_equipaje.message}</ErrorMessage>
@@ -411,7 +413,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                         id="kgs_carga" 
                         min="0" 
                         step="0.1"
-                        {...register("kgs_carga")}      
+                        {...register("kgs_carga", { valueAsNumber: true })}      
                     />
                     {errors.kgs_carga && (
                         <ErrorMessage>{errors.kgs_carga.message}</ErrorMessage>

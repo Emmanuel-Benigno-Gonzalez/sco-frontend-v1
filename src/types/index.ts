@@ -18,6 +18,21 @@ export const mappedCalificador: {[key in Calf]: string} = {
   FP: "Fletamento de Pasajeros"
 }
 
+export const verificarNumerosEnteros = () => {
+  return z
+    .number({ error: "El campo debe ser un número" })
+    .min(0, { message: "Debe ser igual o mayor a 0" })
+    .int({ message: "El número debe ser entero" })
+    .optional();
+};
+
+export const verificarNumerosReales = () => {
+  return z
+    .number({ error: "El campo debe ser un número" })
+    .min(0, { message: "Debe ser igual o mayor a 0" })
+    .optional();
+};
+
 export const opsSchema = z.object({
   id_usuario: z.number(),
   id_matricula: z.string()
@@ -55,24 +70,78 @@ export const opsSchema = z.object({
   id_calificador: z.string()
     .min(1, { message: "El campo  es requerido" }),
   posicion: z.string(),
-  puerta: z.number(),
-  banda: z.number(),
-  adulto_nac: z.number(),
-  infante_nac: z.number(),
-  transito_nac: z.number(),
-  conexion_nac: z.number(),
-  excento_nac: z.number(),
-  adulto_int: z.number(),
-  infante_int: z.number(),
-  transito_int: z.number(),
-  conexion_int: z.number(),
-  excento_int: z.number(),
-  pza_equipaje: z.number(),
-  kgs_equipaje: z.number(),
-  kgs_carga: z.number(),
+  puerta: verificarNumerosEnteros(),
+  banda: verificarNumerosEnteros(),
+  adulto_nac: verificarNumerosEnteros(),
+  infante_nac: verificarNumerosEnteros(),
+  transito_nac: verificarNumerosEnteros(),
+  conexion_nac: verificarNumerosEnteros(),
+  excento_nac: verificarNumerosEnteros(),
+  adulto_int: verificarNumerosEnteros(),
+  infante_int: verificarNumerosEnteros(),
+  transito_int: verificarNumerosEnteros(),
+  conexion_int: verificarNumerosEnteros(),
+  excento_int: verificarNumerosEnteros(),
+  pza_equipaje: verificarNumerosEnteros(),
+  kgs_equipaje: verificarNumerosReales(),
+  kgs_carga: verificarNumerosReales(),
   correo: z.string(),
   observaciones: z.string()
 })
+
+export const consultaOps = z.array(
+  opsSchema.pick({
+    id_usuario: true,
+    id_matricula: true,
+    tipo_mov: true,
+    fecha_iniOps: true,
+    iata_aeropuerto: true,
+    hora_iti: true,
+    hora_real: true,
+    id_compania: true,
+    vuelo: true,
+    pista: true,
+    id_calificador: true,
+    posicion: true,
+    puerta: true,
+    banda: true,
+    adulto_nac: true,
+    infante_nac: true,
+    transito_nac: true,
+    conexion_nac: true,
+    excento_nac: true,
+    adulto_int: true,
+    infante_int: true,
+    transito_int: true,
+    conexion_int: true,
+    excento_int: true,
+    pza_equipaje: true,
+    kgs_equipaje: true,
+    kgs_carga: true,
+    correo: true,
+    observaciones: true
+  }).extend({
+      id_ops: z.string(),
+      hora_calzos: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/, "Formato de hora inválido"),
+      hora_finOps: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/, "Formato de hora inválido"),
+      /*total_nac: z.number(),
+      total_int: z.number(),
+      total_pax: z.number(),
+      origen: z.string(),
+      destino: z.string(),*/
+      fecha_finOps: z.string()
+        .min(8, { message: "El campo fecha es requerido" })
+        .transform((val) => {
+          if (val.includes('T')) {
+            return val.split('T')[0];
+          }
+          return val;
+        })
+        .refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
+          message: "Formato de fecha inválido. Usa AAAA-MM-DD",
+        }),
+      })
+)
 
 type Ops = z.infer< typeof opsSchema >
 export type OpsFormData = Pick<Ops, 

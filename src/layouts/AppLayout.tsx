@@ -4,6 +4,8 @@ import Navigation from '../components/Navigation'
 import { PowerIcon } from '../components/icons/loginIcons'
 import { NavLink } from 'react-router-dom'
 import { OPS_PATH } from '../lib/constants/routes'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function AppLayout() {
 
@@ -84,6 +86,11 @@ export default function AppLayout() {
                 </div>
             </div>
         </footer>
+
+        <ToastContainer 
+            pauseOnHover={false}
+            pauseOnFocusLoss={false}
+        />
     
     </>
 
