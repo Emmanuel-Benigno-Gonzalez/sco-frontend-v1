@@ -5,3 +5,4 @@ export const COM_PATH = 'companias';
 export const AER_PATH = 'aeronaves';
 export const CLF_PATH = 'calificadores';
 export const USE_PATH = 'usuarios';
+export const PER_PATH = 'mi-perfil';

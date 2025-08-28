@@ -6,7 +6,7 @@ import RegiMatrView from '../views/matriculas/RegiMatrView'
 import ConsMatrView from '../views/matriculas/ConsMatrView'
 import EditMatrView from '../views/matriculas/EditMatrView'
 import { PlusIcon, SearchIcon, EditIcon, BarIcon } from '../components/icons/sidebarIcons'
-import ResgAerpView from '../views/aeropuertos/ResgAerpView'
+import ResgAerpView from '../views/aeropuertos/RegiAeroView'
 import ConsAerpView from '../views/aeropuertos/ConsAerpView'
 import EditAerpView from '../views/aeropuertos/EditAerpView'
 import RegiCompView from '../views/companias/RegiCompView'
@@ -27,9 +27,13 @@ import {
   COM_PATH,
   AER_PATH,
   CLF_PATH,
-  USE_PATH 
+  USE_PATH,
+  PER_PATH 
 } from '../lib/constants/routes'
 import cierreOpsView from '../views/operaciones/reportes/cierreOpsView'
+import MiPerfilView from '../views/perfil/MiPerfilView'
+import ModiContraView from '../views/perfil/ModiContraView'
+import ActuContraView from '../views/usuarios/ActuContraView'
 
 export const routeConfig: AppRoute[] = [
   {
@@ -227,6 +231,34 @@ export const routeConfig: AppRoute[] = [
     module: USE_PATH,
     roles: [1],
     element: ConstUsuaView,
+    icon: SearchIcon,
+    showInSidebar: true,
+  },
+  {
+    path: `/${USE_PATH}/actualizar`,
+    label: 'Modificar Contraseñas',
+    module: USE_PATH,
+    roles: [1],
+    element: ActuContraView,
+    icon: SearchIcon,
+    showInSidebar: true,
+  },
+  {
+    path: `/${PER_PATH}/perfil`,
+    label: 'Mi Perfil',
+    module: PER_PATH,
+    roles: [1,2,3],
+    element: MiPerfilView,
+    icon: SearchIcon,
+    showInNav: true,
+    showInSidebar: true,
+  },
+  {
+    path: `/${PER_PATH}/actualizar`,
+    label: 'Cambiar contraseña',
+    module: PER_PATH,
+    roles: [1,2,3],
+    element: ModiContraView,
     icon: SearchIcon,
     showInSidebar: true,
   }
