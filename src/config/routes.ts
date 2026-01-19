@@ -34,6 +34,8 @@ import cierreOpsView from '../views/operaciones/reportes/cierreOpsView'
 import MiPerfilView from '../views/perfil/MiPerfilView'
 import ModiContraView from '../views/perfil/ModiContraView'
 import ActuContraView from '../views/usuarios/ActuContraView'
+import CapOpsView from '../views/operaciones/CapOpsView'
+import LlegadasATDTabla from '../views/operaciones/LlegadasATDView'
 
 export const routeConfig: AppRoute[] = [
   {
@@ -44,6 +46,24 @@ export const routeConfig: AppRoute[] = [
     element: RegiOpsView,
     icon: PlusIcon,
     showInNav: true,
+    showInSidebar: true,
+  },
+  {
+    path: `/${OPS_PATH}/capturaOps`,
+    label: 'Comercial',
+    module: OPS_PATH,
+    roles: [1, 2, 3],
+    element: CapOpsView,
+    icon: BarIcon,
+    showInSidebar: true,
+  },
+  {
+    path: `/${OPS_PATH}/atdllegada`,
+    label: 'ATD Llegada',
+    module: OPS_PATH,
+    roles: [1, 2, 3],
+    element: LlegadasATDTabla,
+    icon: PlusIcon,
     showInSidebar: true,
   },
   {

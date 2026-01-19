@@ -40,7 +40,7 @@ export const opsSchema = z.object({
     .transform((val) => val.toUpperCase()),
   tipo_mov: z.string()
     .min(1, { message: "El tipo de movimiento es requerido" }),
-  fecha_iniOps: z.string()
+  /*fecha_iniOps: z.string()
     .min(8, { message: "El campo fecha es requerido" })
     .transform((val) => {
       if (val.includes('T')) {
@@ -50,10 +50,30 @@ export const opsSchema = z.object({
     })
     .refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
       message: "Formato de fecha inválido. Usa AAAA-MM-DD",
+    }),*/
+  fecha_iniOps: z
+    .string()
+    .regex(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
+      "Fecha y hora inválidas"
+    )
+    .transform((value) => {
+      const date = new Date(value);
+      return date.toISOString(); // YYYY-MM-DDTHH:mm:ss.sssZ
+    }),
+  fecha_iti: z
+    .string()
+    .regex(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
+      "Fecha y hora inválidas"
+    )
+    .transform((value) => {
+      const date = new Date(value);
+      return date.toISOString(); // YYYY-MM-DDTHH:mm:ss.sssZ
     }),
   iata_aeropuerto: z.string()
   .length(3, { message: "El campo debe tener exactamente 3 caracteres" }),
-  hora_iti: z.string()
+  /*hora_iti: z.string()
     .min(6, { message: "El campo es requerido" })
     .regex(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/, "Formato de hora inválido"),
   hora_real: z.string()
@@ -63,6 +83,8 @@ export const opsSchema = z.object({
   hora_finOps: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/, "Formato de hora inválido"),*/
   id_compania: z.string()
     .min(1, { message: "El FBO/Aerolinea es requerido" }),
+  tipo_plataforma: z.string()
+    .min(1, { message: "El tipo de movimiento es requerido" }),
   vuelo: z.string()
     .min(1, { message: "El número de vuelo es requerido" }),
   pista: z.string()
@@ -96,9 +118,9 @@ export const consultaOps = z.array(
     tipo_mov: true,
     fecha_iniOps: true,
     iata_aeropuerto: true,
-    hora_iti: true,
-    hora_real: true,
+    fecha_iti: true,
     id_compania: true,
+    tipo_plataforma: true,
     vuelo: true,
     pista: true,
     id_calificador: true,
@@ -122,32 +144,30 @@ export const consultaOps = z.array(
     observaciones: true
   }).extend({
       id_ops: z.string(),
-      hora_calzos: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/, "Formato de hora inválido"),
-      hora_finOps: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/, "Formato de hora inválido"),
-      /*total_nac: z.number(),
+      total_nac: z.number(),
       total_int: z.number(),
       total_pax: z.number(),
       origen: z.string(),
-      destino: z.string(),*/
-      fecha_finOps: z.string()
-        .min(8, { message: "El campo fecha es requerido" })
-        .transform((val) => {
-          if (val.includes('T')) {
-            return val.split('T')[0];
-          }
-          return val;
-        })
-        .refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
-          message: "Formato de fecha inválido. Usa AAAA-MM-DD",
+      destino: z.string(),
+      fecha_finOps: z
+        .string()
+        .regex(
+          /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
+          "Fecha y hora inválidas"
+        )
+        .transform((value) => {
+          const date = new Date(value);
+          return date.toISOString(); // YYYY-MM-DDTHH:mm:ss.sssZ
         }),
+      token_finOps: z.number(),
       })
 )
 
 type Ops = z.infer< typeof opsSchema >
 export type OpsFormData = Pick<Ops, 
         'id_usuario' | 'id_matricula' | 'tipo_mov' | 'fecha_iniOps' | 
-        'iata_aeropuerto' |'hora_iti' | 'hora_real' |
-        'id_compania' | 'vuelo' | 'pista' | 'id_calificador' |
+        'fecha_iti' | 'iata_aeropuerto' |
+        'id_compania' | 'tipo_plataforma' | 'vuelo' | 'pista' | 'id_calificador' |
         'posicion' | 'puerta' | 'banda' | 'adulto_nac' |
         'infante_nac' | 'transito_nac' | 'conexion_nac' |
         'excento_nac' | 'adulto_int' | 'infante_int' |

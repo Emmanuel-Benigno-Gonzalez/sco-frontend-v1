@@ -3,7 +3,6 @@ body, html {
   height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   font-family: 'Montserrat', Arial, sans-serif;
   background: #e9ecef;
 }
@@ -19,7 +18,7 @@ body, html {
   min-height: 100vh;
   max-width: 100vw;
   max-height: 100vh;
-  overflow: hidden;
+  
   display: flex;
 }
 
@@ -43,7 +42,7 @@ body, html {
   box-shadow: 4px 0 24px 0 rgba(0,0,0,0.12);
   position: relative;
   z-index: 2;
-  overflow: hidden;
+  
 }
 
 .split-left::before {
@@ -114,7 +113,7 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  
 }
 
 /* Texto arriba del recuadro de login */

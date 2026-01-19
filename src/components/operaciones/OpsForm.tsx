@@ -20,7 +20,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                     <h2 className="section-title">Información Básica del Vuelo</h2> 
                     <div className='info-basica'>
                         <div className="form-group">
-                            <label htmlFor="id_matricula" className="required">Matrícula</label>
+                            <label htmlFor="id_matricula" className="required" >Matrícula</label>
                             <input 
                                 type="text" 
                                 id="id_matricula" 
@@ -44,7 +44,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                             >
                                 <option value="">Seleccione...</option>
                                 <option value="S">Salida (S)</option>
-                                <option value="L">Llegada (L)</option>
+                                <option value="LL">Llegada (L)</option>
                             </select>
                             {errors.tipo_mov && (
                                 <ErrorMessage>{errors.tipo_mov.message}</ErrorMessage>
@@ -107,19 +107,29 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
 
                         <div className="form-group">
                             <label htmlFor="id_calificador">Calificador</label>
-                            <input 
-                                type="text" 
-                                id="id_calificador" 
-                                placeholder="Ej: RP"
-                                {...register("id_calificador", {
-                                    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                                        const upper = e.target.value.toUpperCase();
-                                        setValue("id_calificador", upper);
-                                    },
-                                })}    
-                            />
+                            <select id="id_calificador"
+                                {...register("id_calificador")}
+                            >
+                                <option value="">Seleccione...</option>
+                                <option value="RP">Comercial Regular de Pasajeros</option>
+                                <option value="FP">Comercial Fletamento de Pasajeros</option>
+                            </select>
                             {errors.id_calificador && (
                                 <ErrorMessage>{errors.id_calificador.message}</ErrorMessage>
+                            )}
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="tipo_plataforma">Tipo de Plataforma</label>
+                            <select id="tipo_plataforma"
+                                {...register("tipo_plataforma")}
+                            >
+                                <option value="">Seleccione...</option>
+                                <option value="RN">Plataforma Remota Norte</option>
+                                <option value="TA">Plataforma Esteril</option>
+                            </select>
+                            {errors.tipo_plataforma && (
+                                <ErrorMessage>{errors.tipo_plataforma.message}</ErrorMessage>
                             )}
                         </div>
 
@@ -135,6 +145,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 <ErrorMessage>{errors.pista.message}</ErrorMessage>
                             )}
                         </div>
+
                     </div>
                 </div>
 
@@ -142,9 +153,9 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                     <h2 className="section-title">Horarios y Fechas</h2>
                     <div className='info-basica'>
                         <div className="form-group">
-                            <label htmlFor="fecha_iniOps" className="required">Fecha de Operación</label>
+                            <label htmlFor="fecha_iniOps" className="required">Fecha Real</label>
                             <input 
-                                type="date" 
+                                type="datetime-local" 
                                 id="fecha_iniOps" 
                                 {...register("fecha_iniOps")}    
                             />
@@ -152,30 +163,16 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 <ErrorMessage>{errors.fecha_iniOps.message}</ErrorMessage>
                             )}
                         </div>
-                    
+
                         <div className="form-group">
-                            <label htmlFor="hora_iti" className="required">Hora Itinerario</label>
+                            <label htmlFor="fecha_iti" className="required">Fecha Itinerario</label>
                             <input 
-                                type="time" 
-                                id="hora_iti"
-                                step="2" 
-                                {...register("hora_iti")}    
+                                type="datetime-local" 
+                                id="fecha_iti" 
+                                {...register("fecha_iti")}    
                             />
-                            {errors.hora_iti && (
-                                <ErrorMessage>{errors.hora_iti.message}</ErrorMessage>
-                            )}
-                        </div>
-                        
-                        <div className="form-group">
-                            <label htmlFor="hora_real">Hora Real</label>
-                            <input 
-                                type="time" 
-                                id="hora_real"
-                                step="2" 
-                                {...register("hora_real")}
-                            />
-                            {errors.hora_real && (
-                                <ErrorMessage>{errors.hora_real.message}</ErrorMessage>
+                            {errors.fecha_iti && (
+                                <ErrorMessage>{errors.fecha_iti.message}</ErrorMessage>
                             )}
                         </div>
                     </div>
@@ -205,7 +202,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 type="number" 
                                 id="puerta"  
                                 min="0"
-                                {...register("puerta")}   
+                                {...register("puerta", { valueAsNumber: true })}   
                             />
                             {errors.puerta && (
                                 <ErrorMessage>{errors.puerta.message}</ErrorMessage>
@@ -218,7 +215,7 @@ export default function OpsForm({ register, errors, setValue } : OpsFormProps) {
                                 type="number" 
                                 id="banda"  
                                 min="0"
-                                {...register("banda")}      
+                                {...register("banda", { valueAsNumber: true })}      
                             />
                             {errors.banda && (
                                 <ErrorMessage>{errors.banda.message}</ErrorMessage>

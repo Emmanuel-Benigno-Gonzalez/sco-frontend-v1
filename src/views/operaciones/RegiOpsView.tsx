@@ -21,9 +21,9 @@ export default function RegiOpsView() {
         tipo_mov: "",
         iata_aeropuerto: "",
         fecha_iniOps: "",
-        hora_iti: "",
-        hora_real: "",
+        fecha_iti: "",
         id_compania: "",
+        tipo_plataforma: "",
         vuelo: "",
         pista: "",
         id_calificador: "",
@@ -46,7 +46,6 @@ export default function RegiOpsView() {
         correo: "",
         observaciones: ""
     }
-
 
     const { register, handleSubmit, reset, formState: {errors}, setValue } = useForm({
         defaultValues:initialValues,
@@ -79,11 +78,13 @@ export default function RegiOpsView() {
             onSubmit={handleSubmit(handleForm)}
             noValidate /*Desabilida la Validacion de HTML 5*/
         >
+             
             <OpsForm 
                 register={register}
                 errors={errors}
                 setValue={setValue}
             />
+            
 
             <div className="form-actions">
                 <button type="reset" className="btn">Limpiar</button>

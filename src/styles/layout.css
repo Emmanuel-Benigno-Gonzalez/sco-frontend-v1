@@ -245,6 +245,10 @@ main {
     
 }
 
+.main-contenedor {
+    width: 1800px;
+}
+
 
 /* === FOOTER === */
 .footer {

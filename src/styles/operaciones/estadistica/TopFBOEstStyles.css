@@ -1,0 +1,89 @@
+.report2-bg {
+  position: relative;
+  width: 1750px;
+  min-height: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 32px;
+  margin: 0 auto;
+}
+
+.report2-header {
+  width: 98%;
+  max-width: 1700px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, #10346b 0%, #10346b 100%);
+  color: #fff;
+  border-radius: 40px 40px 0 0;
+  padding: 48px 0 24px 0;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+}
+
+.report2-header .subtitle {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.report2-chart-container {
+  width: 98%;
+  max-width: 1200px;
+  margin: 60px auto 60px auto;
+  background: rgba(255,255,255,0.92);
+  border-radius: 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 48px 32px;
+  z-index: 2;
+}
+
+ .report2-footer {
+  width: 98%;
+  max-width: 1700px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, #10346b 0%, #10346b 100%);
+  color: #fff;
+  border-radius: 0 0 40px 40px;
+  padding: 48px 0 24px 0;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+}
+
+.report2-footer .subtitle {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .report2-header, .report2-footer, .report2-chart-container {
+    max-width: 98vw;
+    font-size: 2rem;
+    padding: 16px 4px;
+  }
+  .report2-bg {
+    min-height: 600px;
+    padding-top: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .report2-header, .report2-footer, .report2-chart-container {
+    font-size: 1.2rem;
+    padding: 8px 2px;
+  }
+  .report2-bg {
+    min-height: 400px;
+    padding-top: 4px;
+  }
+}
