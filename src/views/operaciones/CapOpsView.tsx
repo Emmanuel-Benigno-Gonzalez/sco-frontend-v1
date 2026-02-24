@@ -3,25 +3,31 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { toast } from 'react-toastify'
-
 import CapForm from '../../components/operaciones/CapOpsForm'
 import CapSOpsForm from '../../components/operaciones/CapSOpsForm'
 import ErrorMessage from "../../components/ErrorMessage"
-
 import { opsSchema, type OpsFormData } from '../../types'
 import { createOps } from "../../api/OpsAPI"
-
 import '../../styles/operaciones/formCapOps.css'
+import axios from 'axios'
 
 export default function CapOpsView() {
-
   const navigate = useNavigate()
-  const [showForms, setShowForms] = useState(false)
 
-  // =============================
+  const [showForms, setShowForms] = useState(true)
+  
+
+
+  // MODAL
+
+  const [showModal, setShowModal] = useState(false)
+  const [modalMessage, setModalMessage] = useState('')
+  const [modalType, setModalType] = useState<'success' | 'error'>('success')
+  const [formActivo, setFormActivo] = useState<'LL' | 'SA' | null>(null)
+
+
   // Valores iniciales
-  // =============================
+
   const initialValues: OpsFormData = {
     id_usuario: 0,
     id_matricula: "",
@@ -54,90 +60,140 @@ export default function CapOpsView() {
     observaciones: ""
   }
 
-  // =============================
-  // Formulario Comercial
-  // =============================
+  // Formularios
+ 
   const formOps = useForm<OpsFormData>({
     defaultValues: initialValues,
     resolver: zodResolver(opsSchema),
   })
 
-  // =============================
-  // Formulario Servicios Ops
-  // =============================
   const formSOps = useForm<OpsFormData>({
     defaultValues: initialValues,
     resolver: zodResolver(opsSchema),
   })
+  
 
-  // =============================
   // Mutación
-  // =============================
-  /*const { mutate } = useMutation({
+
+  const { mutate } = useMutation({
     mutationFn: createOps,
-    onError: (error: any) => {
-      toast.error(error.message)
+
+    onError: (error: Error) => {
+      // MENSAJE REAL DEL BACKEND
+      setModalMessage(error.message)
+      setModalType('error')
+      setShowModal(true)
     },
-    onSuccess: (data) => {
-      toast.success(data)
-      formOps.reset()
-      formSOps.reset()
-      navigate('/operaciones/registrar')
+
+    onSuccess: (data: string) => {
+      // MENSAJE REAL DEL BACKEND
+      setModalMessage(data)
+      setModalType('success')
+      setShowModal(true)
+
+      if (formActivo === 'LL') {
+        formOps.reset()
+      }
+
+      if (formActivo === 'SA') {
+        formSOps.reset()
+      }
+
+      setFormActivo(null)
     }
-  })*/
+  })
 
-  const {mutate} = useMutation ({
-        mutationFn: createOps,
-        onError: (error) => {
-            toast.error(error.message)
-        }, 
-        onSuccess: (data) => {
-            toast.success(data)
-            formOps.reset()
-            formSOps.reset()
-            navigate('/operaciones/capturaOps') //Modificada
-        }
-    })
+ 
 
 
-  // =============================
   // Submits
-  // =============================
-  const handleFormOps = (data: OpsFormData) => mutate(data)
-  const handleFormSOps = (data: OpsFormData) => mutate(data)
 
-  // =============================
+  
+  //const handleFormOps = (data: OpsFormData) => mutate(data)
+  //const handleFormSOps = (data: OpsFormData) => mutate(data)
+  const handleFormOps = (data: OpsFormData) => {
+    setFormActivo('LL')
+    mutate(data)
+  }
+
+  const handleFormSOps = (data: OpsFormData) => {
+    setFormActivo('SA')
+    mutate(data)
+  }
+
+  const toDateTimeLocal = (date: string) => {
+    const d = new Date(date)
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset())
+    return d.toISOString().slice(0, 16)
+  }
+
+
   // Consultar Matrícula
-  // =============================
-  const handleConsultar = async () => {
+
+ /* const handleConsultar = async () => {
     const isValid = await formOps.trigger("id_matricula")
     if (!isValid) return
 
     const matricula = formOps.getValues("id_matricula")
-
-    // Sincroniza matrícula en ambos formularios
     formSOps.setValue("id_matricula", matricula)
 
     setShowForms(true)
-  }
+  }*/
+   const handleConsultar = async () => {
+    const isValid = await formOps.trigger("id_matricula")
+     if (!isValid) return
 
-  // =============================
+    const matricula = formOps.getValues("id_matricula")
+    formSOps.setValue("id_matricula", matricula)
+
+    try {
+      const response = await axios.post<{
+        data: OpsFormData | []
+      }>("http://localhost:3001/api/ops/operacion/ultimaLlegada", {
+        id_matricula: matricula
+      })
+
+      const llegada = response.data.data
+
+      if (!llegada || Array.isArray(llegada)) {
+        setShowForms(true)
+        return
+      }
+
+      const llegadaData = llegada as Partial<OpsFormData>
+      ;(Object.keys(llegadaData) as Array<keyof OpsFormData>).forEach((key) => {
+        if (
+          key === "fecha_iniOps" || 
+          key === "fecha_iti"
+        ) {
+          formOps.setValue(key, toDateTimeLocal(llegadaData [key] as string))
+        } else {
+          formOps.setValue(key, llegadaData[key]!)
+        }
+      })
+
+      setShowForms(true)
+     } catch (error){
+      console.error("error al cargar la data", error)
+      setShowForms(false)
+     }
+  } 
+
+
+
   // Render
-  // =============================
+
   return (
     <div className="cap-ops-container">
-      <h4 className="text-bold">Captura Comercial</h4>
-
-      {/* MATRÍCULA */}
+      <h4 className="text-bold">Captura Comercial</h4>      
       <div className="matricula-container">
         <label>Matrícula</label>
         <input
           type="text"
           placeholder="Ej: XA-ABC"
           {...formOps.register("id_matricula", {
-            onChange: (e) => {
+            onChange: (e) =>
               formOps.setValue("id_matricula", e.target.value.toUpperCase())
-            }
           })}
         />
 
@@ -156,11 +212,9 @@ export default function CapOpsView() {
         </button>
       </div>
 
-      {/* FORMULARIOS */}
+      
       {showForms && (
         <div className="cap-forms-grid">
-
-          {/* FORM COMERCIAL */}
           <form onSubmit={formOps.handleSubmit(handleFormOps)} noValidate>
             <CapForm
               register={formOps.register}
@@ -169,7 +223,6 @@ export default function CapOpsView() {
             />
           </form>
 
-          {/* FORM SERVICIOS OPS */}
           <form onSubmit={formSOps.handleSubmit(handleFormSOps)} noValidate>
             <CapSOpsForm
               register={formSOps.register}
@@ -177,8 +230,54 @@ export default function CapOpsView() {
               setValue={formSOps.setValue}
             />
           </form>
-
         </div>
+      )}
+
+      
+      {showModal && (
+        <div className="modal-backdrop">
+            <div className={`modal ${modalType}`}>
+
+              {/* ICONO */}
+              {modalType === "error" ? (
+                <div className="error-icon">❌  </div>
+              ) : (
+                <div className="success-icon">
+                  <svg viewBox="0 0 52 52">
+                    <circle
+                      className="success-circle"
+                      cx="26"
+                      cy="26"
+                      r="25"
+                    />
+                    <path
+                      className="success-check"
+                      d="M14 27 L22 35 L38 18"
+                    />
+                  </svg>
+                </div>
+              )}
+
+              
+              <h3>{modalType === "error" ? "Error" : "Éxito"}</h3>
+              <p>{modalMessage}</p>
+
+              
+              <button
+                className="btn-guardar"
+                onClick={() => {
+                  setShowModal(false)
+                  if (modalType === "success") {
+                    navigate("/operaciones/capturaOps")
+                  }
+                }}
+              >
+                Aceptar
+              </button>
+
+            </div>
+       </div>
+
       )}
     </div>
   )

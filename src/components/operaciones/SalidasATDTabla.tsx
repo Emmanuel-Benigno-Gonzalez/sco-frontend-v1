@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import axios, { AxiosError} from "axios";
+import axios, { AxiosError } from "axios"; 
 
 
-interface ATDRecord {
-  id: string; 
+interface ATDSalidaRecord {
+  id: string;
   matricula: string;
   compania: string;
   fechaHoraReal: string;
@@ -11,7 +11,7 @@ interface ATDRecord {
   atd: string;
 }
 
-interface OperacionAPI {
+interface OperacionSAPI {
   id_ops: string;
   id_matricula: string;
   id_compania: string;
@@ -20,64 +20,72 @@ interface OperacionAPI {
   token_finOps: number | null;
 }
 
+// nuevo tipado del error del backend 
 interface BackendError {
   message?: string;
   error?: string;
   data?: string;
 }
 
+// convertir el formato de fecha
 const formatearFecha = (fechaISO: string): string => {
   const fecha = new Date(fechaISO);
 
   return fecha
-  .toLocaleString("es-MX", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute:"2-digit",
-    hour12: true,
-  })
-  .replace(",", "")
-  .replace("a. m.", "a. m.")
-  .replace("p. m.", "p. m.");
-}
+    .toLocaleString("es-MX", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    })
+    .replace(",", "")
+    .replace("a.m.", "a. m.")
+    .replace("p.m.", "p. m.");
+};
 
+
+//Convertimos el formato del back al formato que recibe le input
 const DatetimeLocal = (iso: string): string => {
   if (!iso) return "";
   const date = new Date(iso);
 
   const pad = (n: number) => n.toString().padStart(2, "0");
 
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
+    date.getDate()
+  )}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 };
 
+//Convertir valor de Input al Formato de fecha que recibe el Back
 const datetimeLocal = (value: string): string => {
   return value;
-}
+};
 
-const ATDTable = () => {
-  const [records, setRecords] = useState<ATDRecord[]>([]);
-  const [selected, setSelected] = useState<ATDRecord | null>(null);
+
+const ATDSalidasTable = () => {
+  const [records, setRecords] = useState<ATDSalidaRecord[]>([]);
+  const [selected, setSelected] = useState<ATDSalidaRecord | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [finalizandoId, setFinalizandoId] = useState<string | null>(null);
 
+  // Estados para el modal
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [modalType, setModalType] = useState<"success" | "error">("success"); 
+  const [modalType, setModalType] = useState<"success" | "error">("success");
 
   const fechaActual = DatetimeLocal(new Date().toISOString());
 
   useEffect(() => {
-    const fetchLlegadas = async (): Promise<void> => {
+    const fetchSalidas = async (): Promise<void> => {
       try {
-  
-        const response = await axios.get<{ data: OperacionAPI[] }>(
-          "http://localhost:3000/api/ops/operacion/llegadasPendientes"
+        const response = await axios.get<{ data: OperacionSAPI[] }>(
+          "http://localhost:3000/api/ops/operacion/salidasPendientes"
         );
 
-        const formatted: ATDRecord[] = response.data.data.map(
-          (op): ATDRecord => ({
+        const formatted: ATDSalidaRecord[] = response.data.data.map(
+          (op): ATDSalidaRecord => ({
             id: op.id_ops,
             matricula: op.id_matricula,
             compania: op.id_compania,
@@ -86,31 +94,29 @@ const ATDTable = () => {
             atd: "",
           })
         );
-        console.log("Datos Reales de la API:", formatted);
+
+        console.log("DATOS REALES DE LA API:", formatted);
         setRecords(formatted);
       } catch (error) {
-        console.error("Error cargando ATD Llegadas", error)
-      }   
+        console.error("Error Cargando ATD Salida", error);
+      }
     };
-    fetchLlegadas();
+
+    fetchSalidas();
   }, []);
-  
+
+
   const handleGuardar = async (): Promise<void> => {
     if (!selected) return;
 
     try {
-      console.log("Llegadas: ", selected.atd)
-      console.log("Llegadas: ", fechaActual)
-      console.log("Llegadas", selected.id)
-      console.log("Fecha que envío:", fechaActual);
-
       await axios.put(
         `http://localhost:3000/api/ops/operacion/fecha_finOps/${selected.id}`,
         {
           token_finOps: 1,
           fecha_finOps: selected.atd
-          ? datetimeLocal(selected.atd)
-          :new Date().toISOString(),
+            ? datetimeLocal(selected.atd)
+            : new Date().toISOString(),
         },
         {
           headers: {
@@ -118,18 +124,16 @@ const ATDTable = () => {
           },
         }
       );
-      
-      setModalMessage("ATD de Llegada finalizado correctamente");
+
+      setModalMessage("ATD de salida finalizado correctamente");
       setModalType("success");
       setShowModal(true);
 
       const id = selected.id;
 
-      // cerrar modal
       setSelected(null);
       setEditMode(false);
 
-      // animación + remover fila
       setTimeout(() => {
         setFinalizandoId(id);
 
@@ -140,16 +144,16 @@ const ATDTable = () => {
       }, 200);
 
     } catch (error) {
-      const err = error as AxiosError<BackendError>
+      //manejo real del error backend 
+      const err = error as AxiosError<BackendError>;
 
       setModalMessage(
         err.response?.data?.message ||
           err.response?.data?.error ||
-          "Error al cerrar Atd Llegada"
+          "Error al cerrar ATD Salida"
       );
       setModalType("error");
       setShowModal(true);
-      
     }
   };
 
@@ -206,7 +210,7 @@ const ATDTable = () => {
       {selected && (
         <div className="modal-overlay">
           <div className="modal modal-wide">
-            <h3>Finalizar ATD</h3>
+            <h3>Finalizar ATD – Salida</h3>
 
             <table className="modal-table">
               <thead>
@@ -265,7 +269,8 @@ const ATDTable = () => {
         </div>
       )}
 
-       {showModal && (
+      {/* MOdal */}
+      {showModal && (
         <div className="modal-backdrop">
           <div className={`modal ${modalType}`}>
             {modalType === "error" ? (
@@ -303,4 +308,4 @@ const ATDTable = () => {
   );
 };
 
-export default ATDTable;
+export default ATDSalidasTable;

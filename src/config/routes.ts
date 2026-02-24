@@ -36,6 +36,7 @@ import ModiContraView from '../views/perfil/ModiContraView'
 import ActuContraView from '../views/usuarios/ActuContraView'
 import CapOpsView from '../views/operaciones/CapOpsView'
 import LlegadasATDTabla from '../views/operaciones/LlegadasATDView'
+import SalidasATDTabla from '../views/operaciones/SalidasATDView'
 
 export const routeConfig: AppRoute[] = [
   {
@@ -63,6 +64,15 @@ export const routeConfig: AppRoute[] = [
     module: OPS_PATH,
     roles: [1, 2, 3],
     element: LlegadasATDTabla,
+    icon: PlusIcon,
+    showInSidebar: true,
+  },
+  {
+    path: `/${OPS_PATH}/atdsalida`,
+    label: 'ATD Salida',
+    module: OPS_PATH,
+    roles: [1, 2, 3],
+    element: SalidasATDTabla,
     icon: PlusIcon,
     showInSidebar: true,
   },

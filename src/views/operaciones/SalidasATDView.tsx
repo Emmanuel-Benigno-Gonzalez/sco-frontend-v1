@@ -1,7 +1,7 @@
-import ATDTable from "../../components/operaciones/LlegadasATDTabla";
+import ATDTable from "../../components/operaciones/SalidasATDTabla";
 import "../../styles/operaciones/tablaATDOps.css";
 
-const LlegadasATDTabla = () => {
+const SalidasATDTabla = () => {
   return (
     <div className="atd-container">
       <h2 className="atd-title">ATD – Actual Time of Departure</h2>
@@ -10,4 +10,4 @@ const LlegadasATDTabla = () => {
   );
 };
 
-export default LlegadasATDTabla;
+export default SalidasATDTabla;   
