@@ -1,7 +1,5 @@
-import RegiOpsView from '../views/operaciones/RegiOpsView'
 import ConsOpsView from '../views/operaciones/ConsOpsView'
 import EditOpsView from '../views/operaciones/EditOpsView'
-import RepoOpsView from '../views/operaciones/RepoOpsView'
 import RegiMatrView from '../views/matriculas/RegiMatrView'
 import ConsMatrView from '../views/matriculas/ConsMatrView'
 import EditMatrView from '../views/matriculas/EditMatrView'
@@ -37,6 +35,7 @@ import ActuContraView from '../views/usuarios/ActuContraView'
 import CapOpsView from '../views/operaciones/CapOpsView'
 import LlegadasATDTabla from '../views/operaciones/LlegadasATDView'
 import SalidasATDTabla from '../views/operaciones/SalidasATDView'
+import RegiLlegOpsView from '../views/operaciones/RegiLlegOpsView'
 
 export const routeConfig: AppRoute[] = [
   {
@@ -44,7 +43,7 @@ export const routeConfig: AppRoute[] = [
     label: 'Registrar',
     module: OPS_PATH,
     roles: [1, 2, 3],
-    element: RegiOpsView,
+    element: RegiLlegOpsView,
     icon: PlusIcon,
     showInNav: true,
     showInSidebar: true,
@@ -92,15 +91,6 @@ export const routeConfig: AppRoute[] = [
     roles: [1, 2],
     element: EditOpsView,
     icon: EditIcon,
-    showInSidebar: true,
-  },
-  {
-    path: `/${OPS_PATH}/reportes`,
-    label: 'Estadística',
-    module: OPS_PATH,
-    roles: [1, 2],
-    element: RepoOpsView,
-    icon: BarIcon,
     showInSidebar: true,
   },
   /* Reportes de Cierre de Operaciones */

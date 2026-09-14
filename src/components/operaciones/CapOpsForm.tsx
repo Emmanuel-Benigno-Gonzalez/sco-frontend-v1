@@ -41,10 +41,10 @@ export default function CapForm({ register, errors, setValue } : OpsFormProps) {
             <input 
               type="datetime-local"
               id="fecha_iniOps"
-              {...register("fecha_iniOps")} 
+              {...register("fecha_real")} 
               />
-              {errors.fecha_iniOps && (
-                <ErrorMessage>{errors.fecha_iniOps.message}</ErrorMessage>
+              {errors.fecha_real && (
+                <ErrorMessage>{errors.fecha_real.message}</ErrorMessage>
               )}            
           </div>
 
@@ -133,15 +133,15 @@ export default function CapForm({ register, errors, setValue } : OpsFormProps) {
           <div>
             <label>Tipo de Plataforma</label>
             <select id="tipo_plataforma"
-              {...register("tipo_plataforma")}
+              {...register("tipo_estancia")}
             >
               <option value="" disabled>Seleccione una Opción</option>
               <option value="TA">Turn Around</option>
               <option value="RN">Pernota Norte</option>
               <option value="HG">Pernota H</option>
             </select>
-            {errors.tipo_plataforma && (
-              <ErrorMessage>{errors.tipo_plataforma.message}</ErrorMessage>
+            {errors.tipo_estancia && (
+              <ErrorMessage>{errors.tipo_estancia.message}</ErrorMessage>
             )}
           </div>
 

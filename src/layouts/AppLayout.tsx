@@ -32,7 +32,7 @@ export default function AppLayout() {
                     <Navigation/>
 
                     <div className='login'>
-                        <p>Capturador ...</p>
+                        <p>Capturista Capturista</p>
                         <NavLink
                             to={'/auth/login'}
                             key={'/auth/login'}

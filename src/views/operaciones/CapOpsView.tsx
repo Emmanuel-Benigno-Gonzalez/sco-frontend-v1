@@ -33,10 +33,10 @@ export default function CapOpsView() {
     id_matricula: "",
     tipo_mov: "",
     iata_aeropuerto: "",
-    fecha_iniOps: "",
+    fecha_real: "",
     fecha_iti: "",
     id_compania: "",
-    tipo_plataforma: "",
+    tipo_estancia: "",
     vuelo: "",
     pista: "",
     id_calificador: "",
@@ -149,7 +149,7 @@ export default function CapOpsView() {
     try {
       const response = await axios.post<{
         data: OpsFormData | []
-      }>("http://localhost:3001/api/ops/operacion/ultimaLlegada", {
+      }>("http://localhost:3000/api/ops/operacion/ultimaLlegada", {
         id_matricula: matricula
       })
 
@@ -163,7 +163,7 @@ export default function CapOpsView() {
       const llegadaData = llegada as Partial<OpsFormData>
       ;(Object.keys(llegadaData) as Array<keyof OpsFormData>).forEach((key) => {
         if (
-          key === "fecha_iniOps" || 
+          key === "fecha_real" || 
           key === "fecha_iti"
         ) {
           formOps.setValue(key, toDateTimeLocal(llegadaData [key] as string))

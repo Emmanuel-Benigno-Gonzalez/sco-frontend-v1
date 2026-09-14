@@ -5,9 +5,9 @@ export default function RegiAeroView() {
     <>
         <h4 className="text-bold">Registro Aeronaves</h4>
 
-        <form action="">
-          <AeroForm />
-        </form>
+        
+        <AeroForm />
+        
 
     </>
   )
