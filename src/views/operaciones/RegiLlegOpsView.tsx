@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import '../../styles/operaciones/formReg.css'
 import OpsForm from '../../components/operaciones/OpsForm'
 import type { OpsFormData } from '../../types/index'
-import { createOps } from "../../api/OpsAPI"
+import { createOps } from "../../api/operaciones/opsAPI"
 import { toast } from 'react-toastify'
 import { useMutation } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'

@@ -1,5 +1,5 @@
-import type { SectionConfig } from "../form/types";
-import type { AeronavesFormInput } from "./aeronavesValidation";
+import type { SectionConfig } from "../formTypes/types";
+import type { AeronavesFormInput } from "../validationZod/aeronavesValidation";
 
 export const aeronavesSchema: SectionConfig<AeronavesFormInput>[] = [
   {

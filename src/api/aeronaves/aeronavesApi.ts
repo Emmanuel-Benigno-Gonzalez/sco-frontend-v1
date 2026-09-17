@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import api from "../../lib/axios";
-import type { AeronavesFormData } from "../../components/aeronaves/aeronavesValidation"
+import type { AeronavesFormData } from "../../types/validationZod/aeronavesValidation";
 
 export type CreateAeronaveResponse = {
   message: string;
@@ -14,10 +14,10 @@ export async function createAeronave(
 ): Promise<CreateAeronaveResponse> {
   try {
     const { data } = await api.post<CreateAeronaveResponse>(
-      "https://sco-server.onrender.com/api/ops/aeronave",
+      "/ops/aeronave",
       formData,
     );
-    console.log(data)
+    console.log(data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

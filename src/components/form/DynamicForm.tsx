@@ -1,6 +1,6 @@
 import { useForm, get, type FieldValues, type SubmitHandler, type UseFormProps } from "react-hook-form";
 import FormField from "./FormField";
-import type { SectionConfig } from "./types";
+import type { SectionConfig } from "../../types/formTypes/types";
 
 type DynamicFormProps<
   TInput extends FieldValues,

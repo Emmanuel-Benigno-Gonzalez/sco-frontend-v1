@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios"
-import api from "../lib/axios"
-import { consultaOps, type OpsFormData } from '../types/index'
+import api from "../../lib/axios"
+import { consultaOps, type OpsFormData } from '../../types/index'
 
 export async function createOps(formdata: OpsFormData) {
     try {

@@ -1,9 +1,7 @@
-import ConsOpsView from '../views/operaciones/ConsOpsView'
-import EditOpsView from '../views/operaciones/EditOpsView'
 import RegiMatrView from '../views/matriculas/RegiMatrView'
 import ConsMatrView from '../views/matriculas/ConsMatrView'
 import EditMatrView from '../views/matriculas/EditMatrView'
-import { PlusIcon, SearchIcon, EditIcon, BarIcon } from '../components/icons/sidebarIcons'
+import { PlusIcon, SearchIcon, EditIcon } from '../components/icons/sidebarIcons'
 import ResgAerpView from '../views/aeropuertos/RegiAeroView'
 import ConsAerpView from '../views/aeropuertos/ConsAerpView'
 import EditAerpView from '../views/aeropuertos/EditAerpView'
@@ -28,11 +26,9 @@ import {
   USE_PATH,
   PER_PATH 
 } from '../lib/constants/routes'
-import cierreOpsView from '../views/operaciones/reportes/cierreOpsView'
 import MiPerfilView from '../views/perfil/MiPerfilView'
 import ModiContraView from '../views/perfil/ModiContraView'
 import ActuContraView from '../views/usuarios/ActuContraView'
-import CapOpsView from '../views/operaciones/CapOpsView'
 import LlegadasATDTabla from '../views/operaciones/LlegadasATDView'
 import SalidasATDTabla from '../views/operaciones/SalidasATDView'
 import RegiLlegOpsView from '../views/operaciones/RegiLlegOpsView'
@@ -46,15 +42,6 @@ export const routeConfig: AppRoute[] = [
     element: RegiLlegOpsView,
     icon: PlusIcon,
     showInNav: true,
-    showInSidebar: true,
-  },
-  {
-    path: `/${OPS_PATH}/capturaOps`,
-    label: 'Comercial',
-    module: OPS_PATH,
-    roles: [1, 2, 3],
-    element: CapOpsView,
-    icon: BarIcon,
     showInSidebar: true,
   },
   {
@@ -74,34 +61,6 @@ export const routeConfig: AppRoute[] = [
     element: SalidasATDTabla,
     icon: PlusIcon,
     showInSidebar: true,
-  },
-  {
-    path: `/${OPS_PATH}/consultar`,
-    label: 'Consultar',
-    module: OPS_PATH,
-    roles: [1, 2, 3],
-    element: ConsOpsView,
-    icon: SearchIcon,
-    showInSidebar: true,
-  },
-  {
-    path: `/${OPS_PATH}/ciclos`,
-    label: 'Reportes',
-    module: OPS_PATH,
-    roles: [1, 2],
-    element: EditOpsView,
-    icon: EditIcon,
-    showInSidebar: true,
-  },
-  /* Reportes de Cierre de Operaciones */
-  {
-    path: `/${OPS_PATH}/reportes/cierreOps`,
-    label: 'Estadística',
-    module: OPS_PATH,
-    roles: [1, 2],
-    element: cierreOpsView,
-    icon: BarIcon,
-    showInSidebar: false,
   },
   /** Continua Modulos de Navegacion */
   {

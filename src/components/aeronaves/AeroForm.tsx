@@ -2,8 +2,8 @@ import "../../styles/aeronaves/formReg.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DynamicForm from "../form/DynamicForm";
 import { useCreateAeronave } from "../../hooks/aeronaves/useCreateAeronave";
-import { aeronavesSchema } from "./aeronavesSchema";
-import { aeronavesValidationSchema, type AeronavesFormData, type AeronavesFormInput,} from "./aeronavesValidation";
+import { aeronavesSchema } from "../../types/schemaForm/aeronavesSchema";
+import { aeronavesValidationSchema, type AeronavesFormData, type AeronavesFormInput,} from "../../types/validationZod/aeronavesValidation";
 
 export default function AeroForm() {
   const createAeronaveMutation = useCreateAeronave();
@@ -33,7 +33,7 @@ export default function AeroForm() {
 
       {createAeronaveMutation.isError && (
         <div className="alert alert-error">
-          <p>No fue posible registrar la aeronave.</p>
+          <p>{createAeronaveMutation.error.message}</p>
         </div>  
       )}
     </>
